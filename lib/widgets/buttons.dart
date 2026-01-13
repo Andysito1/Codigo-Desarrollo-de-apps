@@ -33,17 +33,3 @@ class BtnDark extends StatelessWidget {
     );
   }
 }
-
-class BtnSame extends StatelessWidget {
-  final String igual;
-  const BtnSame({super.key, required this.igual});
-
-  @override
-  Widget build(BuildContext context) {
-    return ElevatedButton(
-      onPressed: (){}, 
-      child: Text(this.igual, style: TextStyle(fontSize: 15, color: Colors.white)),
-      style: ButtonStyle(backgroundColor: WidgetStateProperty.all(const Color.fromARGB(255, 10, 99, 172)))
-    );
-  }
-}

@@ -31,6 +31,35 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
+  final TextEditingController _ctrlDisplay = TextEditingController(text: "");
+  double aux1 = 0;
+  double aux2 = 0;
+  String operacion = "";
+
+  void setAux1(String sim) {
+    operacion = sim;
+    aux1 = double.parse(_ctrlDisplay.text);
+    _ctrlDisplay.text = "";
+  }
+
+  void setAux2() {
+    aux2 = double.parse(_ctrlDisplay.text);
+    _ctrlDisplay.text = "";
+  }
+
+   void calcular() {
+    double resultado = 0;
+    if (operacion == "+") {
+      resultado = aux1 + aux2;
+    } else if (operacion == "-") {
+      resultado = aux1 - aux2;
+    } else if (operacion == "*") {
+      resultado = aux1 * aux2;
+    } else {
+      resultado = aux1 / aux2;
+    }
+    _ctrlDisplay.text = "${resultado}";
+  }
 
   void _incrementCounter() {
     setState(() {
@@ -48,14 +77,24 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Center(
         child: Column(
           children: [
-            Text("1"),
-            Text("2"),
+            TextField(
+              controller: _ctrlDisplay,
+              decoration: InputDecoration(
+                labelText: ''
+              ),
+            ),
+            Text("2zzzzzzzzzzzzz"),
             Row(
               children: [
-                ElevatedButton(onPressed: () {}, child: Text("A")),
-                ElevatedButton(onPressed: () {}, child: Text("B")),
-                ElevatedButton(onPressed: () {}, child: Text("C")),
-                ElevatedButton(onPressed: () {}, child: Text("/")),
+                ElevatedButton(onPressed: () {}, child: Text("%")),
+                ElevatedButton(onPressed: () {}, child: Text("CE")),
+
+                ElevatedButton(onPressed: (){
+                  _ctrlDisplay.text = "";
+                }, child: Text("C")),
+                ElevatedButton(onPressed: (){
+                  setAux1("/");
+                }, child: Text("/")),
               ],
             ),
             Row(
@@ -64,21 +103,26 @@ class _MyHomePageState extends State<MyHomePage> {
                   numero: "7",
                   onClick: (String numero) {
                     print("Main: $numero");
+                    _ctrlDisplay.text = "${_ctrlDisplay.text}7";
                   },
                 ),
                 BtnLight(
                   numero: "8",
                   onClick: (String numero) {
                     print("Main: $numero");
+                    _ctrlDisplay.text = "${_ctrlDisplay.text}8";
                   },
                 ),
                 BtnLight(
                   numero: "9",
                   onClick: (String numero) {
                     print("Main: $numero");
+                    _ctrlDisplay.text = "${_ctrlDisplay.text}9";
                   },
                 ),
-                BtnDark(simbolo: "x"),
+                ElevatedButton(onPressed: (){
+                  setAux1("+");
+                }, child: Text("+")),
               ],
             ),
             Row(
@@ -87,21 +131,26 @@ class _MyHomePageState extends State<MyHomePage> {
                   numero: "4",
                   onClick: (String numero) {
                     print("Main: $numero");
+                    _ctrlDisplay.text = "${_ctrlDisplay.text}4";
                   },
                 ),
                 BtnLight(
                   numero: "5",
                   onClick: (String numero) {
                     print("Main: $numero");
+                    _ctrlDisplay.text = "${_ctrlDisplay.text}5";
                   },
                 ),
                 BtnLight(
                   numero: "6",
                   onClick: (String numero) {
                     print("Main: $numero");
+                    _ctrlDisplay.text = "${_ctrlDisplay.text}6";
                   },
                 ),
-                BtnDark(simbolo: "-"),
+                ElevatedButton(onPressed: (){
+                  setAux1("-");
+                }, child: Text("-")),
               ],
             ),
             Row(
@@ -110,21 +159,26 @@ class _MyHomePageState extends State<MyHomePage> {
                   numero: "1",
                   onClick: (String numero) {
                     print("Main: $numero");
+                    _ctrlDisplay.text = "${_ctrlDisplay.text}1";
                   },
                 ),
                 BtnLight(
                   numero: "2",
                   onClick: (String numero) {
                     print("Main: $numero");
+                    _ctrlDisplay.text = "${_ctrlDisplay.text}2";
                   },
                 ),
                 BtnLight(
                   numero: "3",
                   onClick: (String numero) {
                     print("Main: $numero");
+                    _ctrlDisplay.text = "${_ctrlDisplay.text}3";
                   },
                 ),
-                BtnDark(simbolo: "+"),
+                ElevatedButton(onPressed: (){
+                  setAux1("*");
+                }, child: Text("x")),
               ],
             ),
             Row(
@@ -137,7 +191,10 @@ class _MyHomePageState extends State<MyHomePage> {
                   },
                 ),
                 BtnDark(simbolo: "."),
-                BtnSame(igual: "="),
+                ElevatedButton(onPressed: (){
+                  setAux2();
+                  calcular();
+                }, child: Text("="))
               ],
             ),
           ],
