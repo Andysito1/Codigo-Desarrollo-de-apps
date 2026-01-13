@@ -7,16 +7,21 @@ void main() {
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Sullcaray Calculadora',
       theme: ThemeData(
-        colorScheme: .fromSeed(
-          seedColor: const Color.fromARGB(255, 34, 83, 189),
+        brightness: Brightness.dark,
+        scaffoldBackgroundColor: const Color(0xFF121212),
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: const Color(0xFF2979FF),
+          brightness: Brightness.dark,
         ),
       ),
       home: const MyHomePage(title: 'Calculadora'),
+      debugShowCheckedModeBanner: false,
     );
   }
 }
@@ -30,7 +35,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
   final TextEditingController _ctrlDisplay = TextEditingController(text: "");
   double aux1 = 0;
   double aux2 = 0;
@@ -47,7 +51,7 @@ class _MyHomePageState extends State<MyHomePage> {
     _ctrlDisplay.text = "";
   }
 
-   void calcular() {
+  void calcular() {
     double resultado = 0;
     if (operacion == "+") {
       resultado = aux1 + aux2;
@@ -58,152 +62,171 @@ class _MyHomePageState extends State<MyHomePage> {
     } else {
       resultado = aux1 / aux2;
     }
-    _ctrlDisplay.text = "${resultado}";
+    _ctrlDisplay.text = "$resultado";
   }
 
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
+  Widget samsungButton({
+    required Widget child,
+    required VoidCallback onPressed,
+    Color bgColor = const Color(0xFF2B2B2B),
+  }) {
+    return SizedBox(
+      width: 72,
+      height: 72,
+      child: ElevatedButton(
+        onPressed: onPressed,
+        style: ElevatedButton.styleFrom(
+          backgroundColor: bgColor,
+          shape: const CircleBorder(),
+          elevation: 0,
+        ),
+        child: child,
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        backgroundColor: Colors.transparent,
+        elevation: 0,
         title: Text(widget.title),
+        centerTitle: true,
       ),
-      body: Center(
+      body: Padding(
+        padding: const EdgeInsets.all(16),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.end,
           children: [
+            // DISPLAY
             TextField(
               controller: _ctrlDisplay,
-              decoration: InputDecoration(
-                labelText: ''
+              readOnly: true,
+              textAlign: TextAlign.right,
+              style: const TextStyle(
+                fontSize: 42,
+                fontWeight: FontWeight.w400,
+                color: Colors.white,
+              ),
+              decoration: const InputDecoration(
+                border: InputBorder.none,
+                hintText: "0",
+                hintStyle: TextStyle(color: Colors.grey),
               ),
             ),
-            Text("2zzzzzzzzzzzzz"),
-            Row(
-              children: [
-                ElevatedButton(onPressed: () {}, child: Text("%")),
-                ElevatedButton(onPressed: () {}, child: Text("CE")),
 
-                ElevatedButton(onPressed: (){
-                  _ctrlDisplay.text = "";
-                }, child: Text("C")),
-                ElevatedButton(onPressed: (){
-                  setAux1("/");
-                }, child: Text("/")),
-              ],
-            ),
+            const SizedBox(height: 24),
+
+            // FILA 1
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                BtnLight(
-                  numero: "7",
-                  onClick: (String numero) {
-                    print("Main: $numero");
-                    _ctrlDisplay.text = "${_ctrlDisplay.text}7";
-                  },
+                samsungButton(
+                  bgColor: const Color(0xFF3A3A3A),
+                  onPressed: () {},
+                  child: const Text("%", style: TextStyle(fontSize: 20)),
                 ),
-                BtnLight(
-                  numero: "8",
-                  onClick: (String numero) {
-                    print("Main: $numero");
-                    _ctrlDisplay.text = "${_ctrlDisplay.text}8";
-                  },
+                samsungButton(
+                  bgColor: const Color(0xFF3A3A3A),
+                  onPressed: () {},
+                  child: const Text("CE", style: TextStyle(fontSize: 18)),
                 ),
-                BtnLight(
-                  numero: "9",
-                  onClick: (String numero) {
-                    print("Main: $numero");
-                    _ctrlDisplay.text = "${_ctrlDisplay.text}9";
+                samsungButton(
+                  bgColor: const Color(0xFF3A3A3A),
+                  onPressed: () {
+                    _ctrlDisplay.text = "";
                   },
+                  child: const Text("C", style: TextStyle(fontSize: 20)),
                 ),
-                ElevatedButton(onPressed: (){
-                  setAux1("+");
-                }, child: Text("+")),
+                samsungButton(
+                  bgColor: const Color(0xFF2979FF),
+                  onPressed: () {
+                    setAux1("/");
+                  },
+                  child: const Text("/", style: TextStyle(fontSize: 24)),
+                ),
               ],
             ),
+
+            const SizedBox(height: 12),
+
+            // FILA 2
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                BtnLight(
-                  numero: "4",
-                  onClick: (String numero) {
-                    print("Main: $numero");
-                    _ctrlDisplay.text = "${_ctrlDisplay.text}4";
+                BtnLight(numero: "7", onClick: (_) => _ctrlDisplay.text += "7"),
+                BtnLight(numero: "8", onClick: (_) => _ctrlDisplay.text += "8"),
+                BtnLight(numero: "9", onClick: (_) => _ctrlDisplay.text += "9"),
+                samsungButton(
+                  bgColor: const Color(0xFF2979FF),
+                  onPressed: () {
+                    setAux1("+");
                   },
+                  child: const Text("+", style: TextStyle(fontSize: 26)),
                 ),
-                BtnLight(
-                  numero: "5",
-                  onClick: (String numero) {
-                    print("Main: $numero");
-                    _ctrlDisplay.text = "${_ctrlDisplay.text}5";
-                  },
-                ),
-                BtnLight(
-                  numero: "6",
-                  onClick: (String numero) {
-                    print("Main: $numero");
-                    _ctrlDisplay.text = "${_ctrlDisplay.text}6";
-                  },
-                ),
-                ElevatedButton(onPressed: (){
-                  setAux1("-");
-                }, child: Text("-")),
               ],
             ),
+
+            const SizedBox(height: 12),
+
+            // FILA 3
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                BtnLight(
-                  numero: "1",
-                  onClick: (String numero) {
-                    print("Main: $numero");
-                    _ctrlDisplay.text = "${_ctrlDisplay.text}1";
+                BtnLight(numero: "4", onClick: (_) => _ctrlDisplay.text += "4"),
+                BtnLight(numero: "5", onClick: (_) => _ctrlDisplay.text += "5"),
+                BtnLight(numero: "6", onClick: (_) => _ctrlDisplay.text += "6"),
+                samsungButton(
+                  bgColor: const Color(0xFF2979FF),
+                  onPressed: () {
+                    setAux1("-");
                   },
+                  child: const Text("-", style: TextStyle(fontSize: 26)),
                 ),
-                BtnLight(
-                  numero: "2",
-                  onClick: (String numero) {
-                    print("Main: $numero");
-                    _ctrlDisplay.text = "${_ctrlDisplay.text}2";
-                  },
-                ),
-                BtnLight(
-                  numero: "3",
-                  onClick: (String numero) {
-                    print("Main: $numero");
-                    _ctrlDisplay.text = "${_ctrlDisplay.text}3";
-                  },
-                ),
-                ElevatedButton(onPressed: (){
-                  setAux1("*");
-                }, child: Text("x")),
               ],
             ),
+
+            const SizedBox(height: 12),
+
+            // FILA 4
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                BtnLight(numero: "1", onClick: (_) => _ctrlDisplay.text += "1"),
+                BtnLight(numero: "2", onClick: (_) => _ctrlDisplay.text += "2"),
+                BtnLight(numero: "3", onClick: (_) => _ctrlDisplay.text += "3"),
+                samsungButton(
+                  bgColor: const Color(0xFF2979FF),
+                  onPressed: () {
+                    setAux1("*");
+                  },
+                  child: const Text("×", style: TextStyle(fontSize: 26)),
+                ),
+              ],
+            ),
+
+            const SizedBox(height: 12),
+
+            // FILA 5
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 BtnDark(simbolo: "+/-"),
-                BtnLight(
-                  numero: "0",
-                  onClick: (String numero) {
-                    print("Main: $numero");
-                  },
-                ),
+                BtnLight(numero: "0", onClick: (_) => _ctrlDisplay.text += "0"),
                 BtnDark(simbolo: "."),
-                ElevatedButton(onPressed: (){
-                  setAux2();
-                  calcular();
-                }, child: Text("="))
+                samsungButton(
+                  bgColor: const Color(0xFF2979FF),
+                  onPressed: () {
+                    setAux2();
+                    calcular();
+                  },
+                  child: const Text("=", style: TextStyle(fontSize: 26)),
+                ),
               ],
             ),
           ],
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
       ),
     );
   }

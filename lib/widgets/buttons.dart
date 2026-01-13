@@ -14,7 +14,7 @@ class BtnLight extends StatelessWidget {
       }, 
       child: Text(
         this.numero, 
-        style: TextStyle(fontSize: 15, color: Colors.white)),
+        style: TextStyle(fontSize: 25, color: Colors.white)),
       style: ButtonStyle(backgroundColor: WidgetStateProperty.all(Colors.blue))
     );
   }
@@ -28,7 +28,7 @@ class BtnDark extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: (){}, 
-      child: Text(this.simbolo, style: TextStyle(fontSize: 15, color: Colors.white)),
+      child: Text(this.simbolo, style: TextStyle(fontSize: 30, color: Colors.white)),
       style: ButtonStyle(backgroundColor: WidgetStateProperty.all(const Color.fromARGB(255, 14, 121, 209)))
     );
   }
